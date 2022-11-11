@@ -1,0 +1,16 @@
+com\steevelinformaticien\core\TestDeConnetion.class
+com\steevelinformaticien\service\MatchService.class
+com\steevelinformaticien\core\entity\Epreuve.class
+com\steevelinformaticien\core\repository\JoueurRepositoyImpl.class
+com\steevelinformaticien\core\repository\ScoreRepositoryImpl.class
+com\steevelinformaticien\core\entity\Score.class
+com\steevelinformaticien\Tennis.class
+com\steevelinformaticien\core\DatasourceProvider.class
+com\steevelinformaticien\core\entity\Match.class
+com\steevelinformaticien\service\JoueurService.class
+com\steevelinformaticien\core\entity\Tournoi.class
+com\steevelinformaticien\HibernateUtil.class
+com\steevelinformaticien\core\repository\TournoiRepositoryImpl.class
+com\steevelinformaticien\service\TournoiService.class
+com\steevelinformaticien\core\repository\MatchRepositoryImpl.class
+com\steevelinformaticien\core\entity\Joueur.class
