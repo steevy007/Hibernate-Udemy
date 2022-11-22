@@ -4,9 +4,13 @@
  */
 package com.steevelinformaticien.service;
 
+import com.steevelinformaticien.HibernateUtil;
 import com.steevelinformaticien.core.repository.JoueurRepositoyImpl;
 import com.steevelinformaticien.core.repository.TournoiRepositoryImpl;
 import com.steevelinformaticien.core.entity.Joueur;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+
 import java.util.List;
 
 /**
@@ -22,12 +26,47 @@ public class JoueurService {
     }
     
     public void createJoueur(Joueur joueur){
-        this.joueurImpl.create(joueur);
+        Transaction tx=null;
+        Session session=null;
+        try{
+            session= HibernateUtil.getSessionFactory().getCurrentSession();
+            tx= session.beginTransaction();
+            this.joueurImpl.create(joueur);
+            tx.commit();
+            System.out.println("Identifiant Joueur est  "+joueur.getId());
+        }catch(Exception e){
+            if(tx!=null)
+                tx.rollback();
+            e.printStackTrace();
+        }finally {
+            if(session!=null)
+                session.close();
+        }
+
+
     }
     
     
     public Joueur getJoueur(Long id){
-        return this.joueurImpl.getById(id);
+        Joueur joueur=null;
+        Transaction tx=null;
+        Session session=null;
+        try{
+            session= HibernateUtil.getSessionFactory().getCurrentSession();
+            tx= session.beginTransaction();
+            joueur=this.joueurImpl.getById(id);
+            tx.commit();
+            System.out.println("Identifiant Joueur est  "+joueur.getId());
+        }catch(Exception e){
+            if(tx!=null)
+                tx.rollback();
+            e.printStackTrace();
+        }finally {
+            if(session!=null)
+                session.close();
+        }
+
+        return joueur;
     }
     
     public List<Joueur> getListJoueur(){
@@ -41,7 +80,69 @@ public class JoueurService {
     
     
     public void deleteJoueur(Long id){
-        this.joueurImpl.delete(id);
+        Transaction tx=null;
+        Session session=null;
+        try{
+            session=HibernateUtil.getSessionFactory().getCurrentSession();
+            tx= session.beginTransaction();
+            this.joueurImpl.delete(id);
+            tx.commit();
+        }catch(Exception e){
+            if(tx!=null)
+                tx.rollback();
+        }finally {
+            if(session!=null)
+                session.close();
+        }
     }
+
+    public void rename(Long id,String name){
+        Joueur joueur=getJoueur(id);
+        Transaction tx=null;
+        Session session=null;
+        try{
+            session= HibernateUtil.getSessionFactory().getCurrentSession();
+            tx= session.beginTransaction();
+            joueur.setNom("Ou fenk Modifier la ");
+            Joueur joueur1=(Joueur) session.merge(joueur);
+            tx.commit();
+            System.out.println(joueur1.toString());
+            System.out.println("le nom du joueur modifier est "+joueur.getNom());
+        }catch(Exception e){
+            if(tx!=null)
+                tx.rollback();
+            e.printStackTrace();
+        }finally {
+            if(session!=null)
+                session.close();
+        }
+
+    }
+
+
+    public void modifySexe(Long id,char sexe){
+        Joueur joueur=this.getJoueur(id);
+        Transaction tx=null;
+        Session session=null;
+
+        try{
+            session=HibernateUtil.getSessionFactory().getCurrentSession();
+            tx= session.beginTransaction();
+            joueur.setSexe(sexe);
+            Joueur joueur1=(Joueur) session.merge(joueur);
+            tx.commit();
+            System.out.println("le sexe de "+joueur1.getNom()+" a ete modifier ");
+        }catch(Exception e){
+            if(tx!=null)
+                tx.rollback();
+            e.printStackTrace();
+        }finally {
+            if(session!=null)
+                session.close();
+
+        }
+
+    }
+
     
 }

@@ -37,7 +37,8 @@
 		<!-- Enities to map -->
         <mapping class="com.steevelinformaticien.core.entity.Joueur" />
 		<mapping class="com.steevelinformaticien.core.entity.Tournoi" />
-
+        <mapping class="com.steevelinformaticien.core.entity.Epreuve" />
+        <mapping class="com.steevelinformaticien.core.entity.Score" />
     </session-factory>
 
 </hibernate-configuration>

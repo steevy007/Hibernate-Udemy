@@ -4,15 +4,24 @@
  */
 package com.steevelinformaticien.core.entity;
 
+import org.hibernate.annotations.Type;
+
+import javax.persistence.*;
+
 /**
  *
  * @author PEPECELL
  */
+@Entity
 public class Epreuve {
-
+    @Id
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long id;
+
     private Short annee;
+    @Column(name = "TYPE_EPREUVE")
     private Character typeEpreuve;
+    @Transient
     private Tournoi tournoi;
 
     public Epreuve(Long id, Short annee, Character typeEpreuve, Tournoi tournoi) {

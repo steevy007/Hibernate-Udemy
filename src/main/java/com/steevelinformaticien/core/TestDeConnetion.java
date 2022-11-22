@@ -15,15 +15,14 @@ import com.steevelinformaticien.service.TournoiService;
 import java.util.List;
 
 /**
- *
  * @author PEPECELL
  */
 
 public class TestDeConnetion {
 
     public static void main(String... args) {
-        /*JoueurService impl = new JoueurService();
-        System.out.println("Lecture d'un joueur");
+        JoueurService impl = new JoueurService();
+        /*System.out.println("Lecture d'un joueur");
         impl.getJoueur(10L);
         System.out.println("----------------------------------------------------");
         TournoiService tournoi=new TournoiService();
@@ -31,14 +30,12 @@ public class TestDeConnetion {
         tournoi.getTournoi(10L);
         System.out.println("____________________________________________________");
         //cration d'un joueur
-        Joueur joueur=new Joueur();
+        Joueur joueur = new Joueur();
         joueur.setNom("Kanou");
         joueur.setPrenom("Bling");
         joueur.setSexe(("F").charAt(0));
-
-        JoueurService joueurService=new JoueurService();
-        joueurService.createJoueur(joueur);*/
-
+        impl.createJoueur(joueur);
+    /*
         System.out.println("-------------------------------------------------------");
         //creer Tournoi
         Tournoi tournoi=new Tournoi();
@@ -47,5 +44,15 @@ public class TestDeConnetion {
 
         TournoiService tournoiService=new TournoiService();
         tournoiService.createTournoi(tournoi);
+*/
+        System.out.println("-----------------------------------------------------------------");
+        //renommer un joueur
+       // impl.deleteJoueur(10L);
+
+
+        //delete Tournoi
+
+        TournoiService tournoiService=new TournoiService();
+        tournoiService.deleteTournoi(1L);
     }
 }

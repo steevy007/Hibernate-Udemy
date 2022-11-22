@@ -8,6 +8,7 @@ import com.steevelinformaticien.HibernateUtil;
 import com.steevelinformaticien.core.DatasourceProvider;
 import com.steevelinformaticien.core.TestDeConnetion;
 import com.steevelinformaticien.core.entity.Joueur;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -17,33 +18,21 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 /**
- *
  * @author PEPECELL
  */
 public class JoueurRepositoyImpl {
 
+
     public void create(Joueur joueur) {
-       Session session=null;
-        Transaction tx=null;
-       try{
-           session=HibernateUtil.getSessionFactory().openSession();
-           tx=session.beginTransaction();
-          session.persist(joueur);
-          tx.commit();
-           System.out.println("Le joueur a ete creer et a pour id : "+joueur.getId());
-       }catch (Exception e){
-           e.printStackTrace();
-           if(tx!=null)
-               tx.rollback();
-       }finally {
-           if(session!=null)
-               session.close();
-       }
+        Session session = null;
+        session = HibernateUtil.getSessionFactory().getCurrentSession();
+        session.persist(joueur);
     }
 
     public void update(Joueur joueur) {
@@ -84,89 +73,23 @@ public class JoueurRepositoyImpl {
     }
 
     public void delete(Long id) {
-        Connection conn = null;
-        try {
-            //Seulement avant Java 7/JDBC 4 
-            //Class.forName(DRIVER_CLASS_NAME);
 
-            BasicDataSource datasource = DatasourceProvider.getSingleDatasource();
-            //MySQL driver MySQL Connector
-            conn = datasource.getConnection();
-            PreparedStatement statment = conn.prepareStatement("DELETE FROM JOUEUR WHERE ID=?");
-            statment.setLong(1, id);
-            statment.executeUpdate();
-            conn.commit();
-            statment.close();
-            System.out.println("delete joueur");
-        } catch (SQLException e) {
-            e.printStackTrace();
-            try {
-                conn.rollback();
-            } catch (SQLException ex) {
-                Logger.getLogger(TestDeConnetion.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        } finally {
-            try {
-                if (conn != null) {
-                    conn.close();
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
+        Joueur joueur=getById(id);
+
+        Session session=HibernateUtil.getSessionFactory().getCurrentSession();
+        session.delete(joueur);
+
+        System.out.println("joueur supprimer !!!");
     }
 
     public Joueur getById(Long id) {
         //Connection conn = null;
-        Joueur joueur=null;
-        Session session=null;
-        try {
-            
-            session=HibernateUtil.getSessionFactory().openSession();
-            joueur=(Joueur)session.get(Joueur.class,id);
-            System.out.println("joueur lu");
-            
-            //Seulement avant Java 7/JDBC 4 
-            //Class.forName(DRIVER_CLASS_NAME);
+        Joueur joueur = null;
+        Session session = null;
+        session = HibernateUtil.getSessionFactory().getCurrentSession();
+        joueur = (Joueur) session.get(Joueur.class, id);
+        System.out.println("joueur lu");
 
-            /*BasicDataSource datasource = DatasourceProvider.getSingleDatasource();
-            //MySQL driver MySQL Connector
-            conn = datasource.getConnection();
-            PreparedStatement statment = conn.prepareStatement("SELECT * FROM JOUEUR WHERE ID=?");
-            statment.setLong(1, id);
-            ResultSet rs = statment.executeQuery();
-
-            if (rs.next()) {
-                joueur=new Joueur();
-                joueur.setNom(rs.getString("NOM"));
-                joueur.setPrenom(rs.getString("PRENOM"));
-                joueur.setSexe(rs.getString("SEXE").charAt(0));
-                joueur.setId(rs.getLong("ID"));
-            }
-
-            //conn.commit();
-            statment.close();*/
-            System.out.println("Le Joueur selectionner se nomme  : "+joueur.getNom());
-        }catch(Throwable t){
-            t.printStackTrace();
-        } /*catch (SQLException e) {
-            e.printStackTrace();
-            try {
-                conn.rollback();
-            } catch (SQLException ex) {
-                Logger.getLogger(TestDeConnetion.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        } */finally {
-            if(session!=null)
-                session.close();
-            /*try {
-                if (conn != null) {
-                    conn.close();
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }*/
-        }
 
         return joueur;
     }
@@ -186,7 +109,7 @@ public class JoueurRepositoyImpl {
             ResultSet rs = statment.executeQuery();
 
             while (rs.next()) {
-                joueur=new Joueur();
+                joueur = new Joueur();
                 joueur.setId(rs.getLong("ID"));
                 joueur.setNom(rs.getString("NOM"));
                 joueur.setPrenom(rs.getString("PRENOM"));
