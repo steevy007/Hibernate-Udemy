@@ -4,16 +4,27 @@
  */
 package com.steevelinformaticien.core.entity;
 
+import javax.persistence.*;
+
 /**
  *
  * @author PEPECELL
  */
-
+@Entity
+@Table(name = "match_tennis")
 public class Match {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "ID_VAINQUEUR")
     private Joueur vainqueur;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "ID_FINALISTE")
     private Joueur finaliste;
+    @Transient
     private Epreuve epreuve;
+    @Transient
     private Score score;
 
     public Match() {

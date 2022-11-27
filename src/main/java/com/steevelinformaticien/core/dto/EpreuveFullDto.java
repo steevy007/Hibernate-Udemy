@@ -1,38 +1,26 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
-package com.steevelinformaticien.core.entity;
+package com.steevelinformaticien.core.dto;
 
-import org.hibernate.annotations.Type;
+import com.steevelinformaticien.core.entity.Tournoi;
 
 import javax.persistence.*;
 
-/**
- *
- * @author PEPECELL
- */
-@Entity
-public class Epreuve {
-    @Id
-    @GeneratedValue(strategy= GenerationType.IDENTITY)
+public class EpreuveFullDto {
     private Long id;
 
     private Short annee;
-    @Column(name = "TYPE_EPREUVE")
-    private Character typeEpreuve;
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "ID_TOURNOI")
-    private Tournoi tournoi;
 
-    public Epreuve(Long id, Short annee, Character typeEpreuve, Tournoi tournoi) {
+    private Character typeEpreuve;
+
+    private TournoiDto tournoi;
+
+    public EpreuveFullDto(Long id, Short annee, Character typeEpreuve, TournoiDto tournoi) {
         this.id = id;
         this.annee = annee;
         this.typeEpreuve = typeEpreuve;
         this.tournoi = tournoi;
     }
 
-    public Epreuve() {
+    public EpreuveFullDto() {
     }
 
     public Long getId() {
@@ -59,11 +47,11 @@ public class Epreuve {
         this.typeEpreuve = typeEpreuve;
     }
 
-    public Tournoi getTournoi() {
+    public TournoiDto getTournoi() {
         return tournoi;
     }
 
-    public void setTournoi(Tournoi tournoi) {
+    public void setTournoi(TournoiDto tournoi) {
         this.tournoi = tournoi;
     }
 

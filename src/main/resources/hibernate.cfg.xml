@@ -39,6 +39,7 @@
 		<mapping class="com.steevelinformaticien.core.entity.Tournoi" />
         <mapping class="com.steevelinformaticien.core.entity.Epreuve" />
         <mapping class="com.steevelinformaticien.core.entity.Score" />
+        <mapping class="com.steevelinformaticien.core.entity.Match" />
     </session-factory>
 
 </hibernate-configuration>

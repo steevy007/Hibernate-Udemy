@@ -4,8 +4,10 @@
  */
 package com.steevelinformaticien.core.repository;
 
+import com.steevelinformaticien.HibernateUtil;
 import com.steevelinformaticien.core.DatasourceProvider;
 import com.steevelinformaticien.core.TestDeConnetion;
+import com.steevelinformaticien.core.entity.Epreuve;
 import com.steevelinformaticien.core.entity.Joueur;
 import com.steevelinformaticien.core.entity.Match;
 import java.sql.Connection;
@@ -16,12 +18,19 @@ import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.apache.commons.dbcp2.BasicDataSource;
+import org.hibernate.Session;
 
 /**
  *
  * @author PEPECELL
  */
 public class MatchRepositoryImpl {
+
+    public Match getById(Long id){
+        Session session= HibernateUtil.getSessionFactory().getCurrentSession();
+       Match match=session.get(Match.class,id);
+        return match;
+    }
 
     public boolean create(Match match) {
         Connection conn = null;
