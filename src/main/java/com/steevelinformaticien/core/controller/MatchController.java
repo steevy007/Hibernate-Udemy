@@ -15,6 +15,16 @@ public class MatchController {
         this.matchService=new MatchService();
     }
 
+
+    public void tapisVert(){
+        Scanner sc=new Scanner(System.in);
+        System.out.println("veuillez saisir l'ID du Match vous voulez annuler");
+        Long id=sc.nextLong();
+
+        matchService.tapisVert(id);
+
+    }
+
     public void getMatch(){
         Scanner sc=new Scanner(System.in);
         System.out.println("veuillez saisir l'ID du Match");

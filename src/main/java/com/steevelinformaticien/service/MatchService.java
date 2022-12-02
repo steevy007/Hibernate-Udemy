@@ -7,6 +7,7 @@ package com.steevelinformaticien.service;
 import com.steevelinformaticien.HibernateUtil;
 import com.steevelinformaticien.core.dto.*;
 import com.steevelinformaticien.core.entity.Epreuve;
+import com.steevelinformaticien.core.entity.Joueur;
 import com.steevelinformaticien.core.repository.MatchRepositoryImpl;
 import com.steevelinformaticien.core.repository.ScoreRepositoryImpl;
 import com.steevelinformaticien.core.entity.Match;
@@ -32,6 +33,37 @@ public class MatchService {
            if(this.scoreImpl.create(match.getScore()))
                return true;  
         return false;
+    }
+
+
+    public void tapisVert(Long id){
+        Session session=null;
+        Transaction tx=null;
+        Match match=null;
+        try{
+            session = HibernateUtil.getSessionFactory().getCurrentSession();
+            tx=session.beginTransaction();
+            match=this.matchImpl.getById(id);
+            Joueur ancienvainqueur=match.getVainqueur();
+            match.setVainqueur(match.getFinaliste());
+            match.setFinaliste(ancienvainqueur);
+
+            match.getScore().setSet1((byte)0);
+            match.getScore().setSet2((byte)0);
+            match.getScore().setSet3((byte)0);
+            match.getScore().setSet4((byte)0);
+            match.getScore().setSet5((byte)0);
+
+            tx.commit();
+
+        }catch(Exception e){
+            //System.out.println(e);
+            if(tx!=null)
+                tx.rollback();
+        }finally {
+            if(session!=null)
+                session.close();
+        }
     }
 
 
