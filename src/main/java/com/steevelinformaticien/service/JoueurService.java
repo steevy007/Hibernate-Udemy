@@ -5,12 +5,14 @@
 package com.steevelinformaticien.service;
 
 import com.steevelinformaticien.HibernateUtil;
+import com.steevelinformaticien.core.dto.JoueurDto;
 import com.steevelinformaticien.core.repository.JoueurRepositoyImpl;
 import com.steevelinformaticien.core.repository.TournoiRepositoryImpl;
 import com.steevelinformaticien.core.entity.Joueur;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -23,6 +25,36 @@ public class JoueurService {
     public JoueurService() {
         this.joueurImpl=new JoueurRepositoyImpl();
         
+    }
+
+    public List<JoueurDto> getListJ(){
+        Transaction tx=null;
+        Session session=null;
+        List<JoueurDto> joueurDtoList=new ArrayList<>();
+        try{
+            session= HibernateUtil.getSessionFactory().getCurrentSession();
+            tx= session.beginTransaction();
+            List<Joueur> list=this.joueurImpl.list();
+
+            for(Joueur joueur:list){
+                JoueurDto joueurDto=new JoueurDto();
+                joueurDto.setId(joueur.getId());
+                joueurDto.setNom(joueur.getNom());
+                joueurDto.setPrenom(joueur.getPrenom());
+                joueurDto.setSexe(joueur.getSexe());
+                joueurDtoList.add(joueurDto);
+            }
+
+            tx.commit();
+        }catch(Exception e){
+            if(tx!=null)
+                tx.rollback();
+            e.printStackTrace();
+        }finally {
+            if(session!=null)
+                session.close();
+        }
+        return joueurDtoList;
     }
     
     public void createJoueur(Joueur joueur){

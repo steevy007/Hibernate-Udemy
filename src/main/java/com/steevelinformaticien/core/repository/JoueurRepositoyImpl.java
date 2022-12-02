@@ -22,6 +22,7 @@ import java.util.logging.Logger;
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.query.Query;
 
 /**
  * @author PEPECELL
@@ -95,49 +96,10 @@ public class JoueurRepositoyImpl {
     }
 
     public List<Joueur> list() {
-        Connection conn = null;
-        Joueur joueur = null;
-        List<Joueur> list = new ArrayList();
-        try {
-            //Seulement avant Java 7/JDBC 4 
-            //Class.forName(DRIVER_CLASS_NAME);
+        Session session=HibernateUtil.getSessionFactory().getCurrentSession();
+        Query<Joueur> query=session.createQuery("select j from Joueur j",Joueur.class);
+        List<Joueur> listJoueur=query.getResultList();
 
-            BasicDataSource datasource = DatasourceProvider.getSingleDatasource();
-            //MySQL driver MySQL Connector
-            conn = datasource.getConnection();
-            PreparedStatement statment = conn.prepareStatement("SELECT * FROM JOUEUR ");
-            ResultSet rs = statment.executeQuery();
-
-            while (rs.next()) {
-                joueur = new Joueur();
-                joueur.setId(rs.getLong("ID"));
-                joueur.setNom(rs.getString("NOM"));
-                joueur.setPrenom(rs.getString("PRENOM"));
-                joueur.setSexe(rs.getString("SEXE").charAt(0));
-
-                list.add(joueur);
-            }
-
-            //conn.commit();
-            statment.close();
-            System.out.println("Liste Joueurs");
-        } catch (SQLException e) {
-            e.printStackTrace();
-            try {
-                conn.rollback();
-            } catch (SQLException ex) {
-                Logger.getLogger(TestDeConnetion.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        } finally {
-            try {
-                if (conn != null) {
-                    conn.close();
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
-
-        return list;
+        return listJoueur;
     }
 }
