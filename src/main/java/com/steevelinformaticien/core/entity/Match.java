@@ -25,7 +25,7 @@ public class Match {
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ID_EPREUVE")
     private Epreuve epreuve;
-    @OneToOne(fetch =FetchType.LAZY , mappedBy = "match")
+    @OneToOne(fetch =FetchType.LAZY , mappedBy = "match",orphanRemoval = true)
     private Score score;
 
     public Match() {

@@ -5,6 +5,7 @@ import com.steevelinformaticien.core.dto.EpreuveFullDto;
 import com.steevelinformaticien.core.dto.MatchDto;
 import com.steevelinformaticien.core.dto.ScoreFullDto;
 import com.steevelinformaticien.core.dto.TournoiDto;
+import com.steevelinformaticien.core.entity.Match;
 import com.steevelinformaticien.core.entity.Score;
 import com.steevelinformaticien.core.repository.ScoreRepositoryImpl;
 import org.hibernate.Session;
@@ -65,6 +66,27 @@ public class ScoreService {
                 session.close();
         }
         return  null;
+    }
+
+    public void deleteScore(Long id){
+        Session session=null;
+        Transaction tx=null;
+        Score score=null;
+        try{
+            session = HibernateUtil.getSessionFactory().getCurrentSession();
+            tx=session.beginTransaction();
+
+            this.scoreRepository.delete(id);
+
+            tx.commit();
+        }catch(Exception e){
+            //System.out.println(e);
+            if(tx!=null)
+                tx.rollback();
+        }finally {
+            if(session!=null)
+                session.close();
+        }
     }
 
 }

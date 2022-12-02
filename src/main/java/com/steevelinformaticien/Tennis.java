@@ -47,30 +47,7 @@ public class Tennis {
             System.out.println("ID => " + t.getId().toString() + " NOM => " + t.getNom() + " CODE => " + t.getCode());
         }*/
        
-       
-       MatchService matchservice=new MatchService();
-       Match match=new Match();
-       Score score=new Score();
-       score.setSet1((byte)3);
-       score.setSet2((byte)4);
-       score.setSet3((byte)6);
-       
-       match.setScore(score);
-       score.setMatch(match);
-       Joueur federer=new Joueur();
-       federer.setId(41L);
-       Joueur nadal=new Joueur();
-       nadal.setId(31L);
-       match.setVainqueur(federer);
-       match.setFinaliste(nadal);
-       
-       Epreuve epreuve=new Epreuve();
-       epreuve.setId(9L);
-       
-       match.setEpreuve(epreuve);
-       
-       matchservice.createMatch(match);
-       
+
        
        
        

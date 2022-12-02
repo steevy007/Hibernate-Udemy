@@ -62,10 +62,10 @@ public class TestDeConnetion {
 
         //impl.getJoueur(10L);
 
-        MatchController matchController=new MatchController();
-        matchController.getMatch();
+        //MatchController matchController=new MatchController();
+        //matchController.supprimerMatch();
 
-        //ScoreController scoreController=new ScoreController();
-        //scoreController.afficherScore();
+        ScoreController scoreController=new ScoreController();
+        scoreController.supprimerScore();
     }
 }

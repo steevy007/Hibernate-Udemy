@@ -25,6 +25,14 @@ public class MatchController {
 
     }
 
+    public void supprimerMatch(){
+        Scanner sc=new Scanner(System.in);
+        System.out.println("veuillez saisir l'ID du Match a supprimer");
+        Long id=sc.nextLong();
+
+        matchService.deleteMatch(id);
+    }
+
     public void getMatch(){
         Scanner sc=new Scanner(System.in);
         System.out.println("veuillez saisir l'ID du Match");

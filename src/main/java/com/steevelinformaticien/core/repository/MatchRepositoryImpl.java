@@ -37,4 +37,12 @@ public class MatchRepositoryImpl {
       session.persist(match);
         System.out.println("Match creer");
     }
+
+    public void delete(Long id){
+        Session session=HibernateUtil.getSessionFactory().getCurrentSession();
+        Match match=session.get(Match.class,id);
+        session.delete(match);
+        System.out.println("Match Supprimer");
+
+    }
 }

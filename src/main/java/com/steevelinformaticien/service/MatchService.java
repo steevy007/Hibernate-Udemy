@@ -74,6 +74,28 @@ public class MatchService {
     }
 
 
+    public void deleteMatch(Long id){
+        Session session=null;
+        Transaction tx=null;
+        Match match=null;
+        try{
+            session = HibernateUtil.getSessionFactory().getCurrentSession();
+            tx=session.beginTransaction();
+
+            this.matchImpl.delete(id);
+
+            tx.commit();
+        }catch(Exception e){
+            //System.out.println(e);
+            if(tx!=null)
+                tx.rollback();
+        }finally {
+            if(session!=null)
+                session.close();
+        }
+    }
+
+
     public void tapisVert(Long id){
         Session session=null;
         Transaction tx=null;

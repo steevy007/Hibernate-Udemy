@@ -27,4 +27,12 @@ public class ScoreController {
         System.out.println("Il s'agit du tournoie "+scoreFullDto.getMatchDto().getEpreuveFullDto().getTournoi().getNom());
         System.out.println("L'epreuve s est deroule en "+scoreFullDto.getMatchDto().getEpreuveFullDto().getAnnee()+" et il s'agissait d'une epreuve "+(scoreFullDto.getMatchDto().getEpreuveFullDto().getTypeEpreuve().charValue()=='H'?"HOMME":"FEMME"));
     }
+
+    public void supprimerScore(){
+        Scanner sc=new Scanner(System.in);
+        System.out.println("veuillez saisir l'ID du Score a supprimer");
+        Long id=sc.nextLong();
+
+        scoreService.deleteScore(id);
+    }
 }
