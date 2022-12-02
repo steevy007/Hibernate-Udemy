@@ -11,7 +11,7 @@ import javax.persistence.*;
  * @author PEPECELL
  */
 @Entity
-@Table(name = "match_tennis")
+@Table(name = "MATCH_TENNIS")
 public class Match {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,7 +22,8 @@ public class Match {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ID_FINALISTE")
     private Joueur finaliste;
-    @Transient
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "ID_EPREUVE")
     private Epreuve epreuve;
     @Transient
     private Score score;

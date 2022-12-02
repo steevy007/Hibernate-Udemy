@@ -4,6 +4,7 @@
  */
 package com.steevelinformaticien.core.repository;
 
+import com.steevelinformaticien.HibernateUtil;
 import com.steevelinformaticien.core.DatasourceProvider;
 import com.steevelinformaticien.core.TestDeConnetion;
 import com.steevelinformaticien.core.entity.Match;
@@ -17,6 +18,7 @@ import java.sql.Types;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.apache.commons.dbcp2.BasicDataSource;
+import org.hibernate.Session;
 
 /**
  *
@@ -79,5 +81,11 @@ public class ScoreRepositoryImpl {
             }
         }
         return false;
+    }
+
+    public Score getById(Long id){
+        Session session= HibernateUtil.getSessionFactory().getCurrentSession();
+        Score score=session.get(Score.class,id);
+        return score;
     }
 }

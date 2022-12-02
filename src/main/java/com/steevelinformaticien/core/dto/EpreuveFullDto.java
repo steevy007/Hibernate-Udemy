@@ -1,8 +1,10 @@
 package com.steevelinformaticien.core.dto;
 
+import com.steevelinformaticien.core.entity.Joueur;
 import com.steevelinformaticien.core.entity.Tournoi;
 
 import javax.persistence.*;
+import java.util.Set;
 
 public class EpreuveFullDto {
     private Long id;
@@ -12,6 +14,8 @@ public class EpreuveFullDto {
     private Character typeEpreuve;
 
     private TournoiDto tournoi;
+
+    private Set<JoueurDto> participants;
 
     public EpreuveFullDto(Long id, Short annee, Character typeEpreuve, TournoiDto tournoi) {
         this.id = id;
@@ -55,4 +59,12 @@ public class EpreuveFullDto {
         this.tournoi = tournoi;
     }
 
+
+    public Set<JoueurDto> getParticipants() {
+        return participants;
+    }
+
+    public void setParticipants(Set<JoueurDto> participants) {
+        this.participants = participants;
+    }
 }

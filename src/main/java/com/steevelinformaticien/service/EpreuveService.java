@@ -3,12 +3,16 @@ package com.steevelinformaticien.service;
 import com.steevelinformaticien.HibernateUtil;
 import com.steevelinformaticien.core.dto.EpreuveFullDto;
 import com.steevelinformaticien.core.dto.EpreuveLiteDto;
+import com.steevelinformaticien.core.dto.JoueurDto;
 import com.steevelinformaticien.core.dto.TournoiDto;
 import com.steevelinformaticien.core.entity.Epreuve;
+import com.steevelinformaticien.core.entity.Joueur;
 import com.steevelinformaticien.core.repository.EpreuveRepositoryImpl;
 import org.hibernate.Hibernate;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+
+import java.util.HashSet;
 
 public class EpreuveService {
     private EpreuveRepositoryImpl epreuveRepository;
@@ -16,7 +20,7 @@ public class EpreuveService {
     public EpreuveService(){
         this.epreuveRepository=new EpreuveRepositoryImpl();
     }
-    public EpreuveFullDto getEpreuveAvecTournoi(Long id){
+    public EpreuveFullDto getEpreuveDetaille(Long id){
         Session session=null;
         Transaction tx=null;
         Epreuve epreuve=null;
@@ -38,6 +42,18 @@ public class EpreuveService {
             tournoiDto.setNom(epreuve.getTournoi().getNom());
             tournoiDto.setCode(epreuve.getTournoi().getCode());
             epreuveDto.setTournoi(tournoiDto);
+
+            epreuveDto.setParticipants(new HashSet<>());
+            for(Joueur joueur: epreuve.getParticipants()){
+                final JoueurDto joueurDto=new JoueurDto();
+                joueurDto.setId(joueur.getId());
+                joueurDto.setPrenom(joueur.getPrenom());
+                joueurDto.setNom(joueur.getNom());
+                joueurDto.setSexe(joueur.getSexe());
+
+                epreuveDto.getParticipants().add(joueurDto);
+            }
+
             tx.commit();
             return epreuveDto;
         }catch(Exception e){

@@ -2,7 +2,9 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.steevelinformaticien.core.entity;
+package com.steevelinformaticien.core.dto;
+
+import com.steevelinformaticien.core.entity.Match;
 
 import javax.persistence.*;
 
@@ -10,27 +12,22 @@ import javax.persistence.*;
  *
  * @author PEPECELL
  */
-@Entity
-@Table(name = "SCORE_VAINQUEUR")
-public class Score {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class ScoreFullDto {
     private Long id;
-    @Column(name = "SET_1")
     private Byte set1;
-    @Column(name = "SET_2")
-    private Byte set2;
-    @Column(name = "SET_3")
-    private Byte set3;
-    @Column(name = "SET_4")
-    private Byte set4;
-    @Column(name = "SET_5")
-    private Byte set5;
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "ID_MATCH")
-    private Match match;
 
-    public Score(Long id, Byte set1, Byte set2, Byte set3, Byte set4) {
+    private Byte set2;
+
+    private Byte set3;
+
+    private Byte set4;
+
+    private Byte set5;
+
+    private MatchDto matchDto;
+
+
+    public ScoreFullDto(Long id, Byte set1, Byte set2, Byte set3, Byte set4) {
         this.id = id;
         this.set1 = set1;
         this.set2 = set2;
@@ -38,7 +35,7 @@ public class Score {
         this.set4 = set4;
     }
 
-    public Score() {
+    public ScoreFullDto() {
     }
 
     public Long getId() {
@@ -88,19 +85,12 @@ public class Score {
     public void setSet5(Byte set5) {
         this.set5 = set5;
     }
-    
 
-    
-    public Match getMatch() {
-        return match;
+    public MatchDto getMatchDto() {
+        return matchDto;
     }
 
-    public void setMatch(Match match) {
-        this.match = match;
+    public void setMatchDto(MatchDto matchDto) {
+        this.matchDto = matchDto;
     }
-    
-    
-    
-    
-    
 }

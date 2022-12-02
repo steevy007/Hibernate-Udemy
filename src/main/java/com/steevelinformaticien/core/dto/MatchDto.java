@@ -4,6 +4,7 @@
  */
 package com.steevelinformaticien.core.dto;
 
+import com.steevelinformaticien.core.controller.EpreuveController;
 import com.steevelinformaticien.core.entity.Epreuve;
 import com.steevelinformaticien.core.entity.Joueur;
 import com.steevelinformaticien.core.entity.Score;
@@ -18,17 +19,19 @@ import javax.persistence.*;
 public class MatchDto {
     private Long id;
     private JoueurDto vainqueur;
-
     private JoueurDto finaliste;
+
+    private EpreuveFullDto epreuveFullDto;
 
 
     public MatchDto() {
     }
 
-    public MatchDto(Long id, JoueurDto vainqueur, JoueurDto finaliste) {
+    public MatchDto(Long id, JoueurDto vainqueur, JoueurDto finaliste , EpreuveFullDto epreuveController) {
         this.id = id;
         this.vainqueur = vainqueur;
         this.finaliste = finaliste;
+        this.epreuveFullDto=epreuveController;
     }
 
     public Long getId() {
@@ -53,5 +56,13 @@ public class MatchDto {
 
     public void setFinaliste(JoueurDto finaliste) {
         this.finaliste = finaliste;
+    }
+
+    public EpreuveFullDto getEpreuveFullDto() {
+        return epreuveFullDto;
+    }
+
+    public void setEpreuveFullDto(EpreuveFullDto epreuveFullDto) {
+        this.epreuveFullDto = epreuveFullDto;
     }
 }

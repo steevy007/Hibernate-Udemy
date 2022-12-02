@@ -20,6 +20,7 @@ public class MatchController {
         System.out.println("veuillez saisir l'ID du Match");
         Long id=sc.nextLong();
         MatchDto matchDto=this.matchService.getMatch(id);
+        System.out.println("Il s'agit d'un match de "+matchDto.getEpreuveFullDto().getAnnee()+" qui s'est deroule a "+matchDto.getEpreuveFullDto().getTournoi().getNom());
         System.out.println("le nom et le prenom du vainqueur sont : "+ matchDto.getVainqueur().getNom()+" "+matchDto.getVainqueur().getPrenom());
         System.out.println("le nom et le prenom du finaliste sont : "+ matchDto.getFinaliste().getNom()+" "+matchDto.getFinaliste().getPrenom());
     }

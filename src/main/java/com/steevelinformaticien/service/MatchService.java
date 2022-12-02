@@ -5,9 +5,7 @@
 package com.steevelinformaticien.service;
 
 import com.steevelinformaticien.HibernateUtil;
-import com.steevelinformaticien.core.dto.EpreuveLiteDto;
-import com.steevelinformaticien.core.dto.JoueurDto;
-import com.steevelinformaticien.core.dto.MatchDto;
+import com.steevelinformaticien.core.dto.*;
 import com.steevelinformaticien.core.entity.Epreuve;
 import com.steevelinformaticien.core.repository.MatchRepositoryImpl;
 import com.steevelinformaticien.core.repository.ScoreRepositoryImpl;
@@ -42,6 +40,7 @@ public class MatchService {
         Transaction tx=null;
         Match match=null;
         MatchDto matchDto=null;
+        EpreuveFullDto epreuveDto=null;
         try{
             session = HibernateUtil.getSessionFactory().getCurrentSession();
             tx=session.beginTransaction();
@@ -63,6 +62,19 @@ public class MatchService {
             joueurDtoVainqueur.setPrenom(match.getVainqueur().getPrenom());
             joueurDtoVainqueur.setSexe(match.getVainqueur().getSexe());
             matchDto.setVainqueur(joueurDtoVainqueur);
+
+            //creation epreuve
+            epreuveDto=new EpreuveFullDto();
+            epreuveDto.setId(match.getEpreuve().getId());
+            epreuveDto.setAnnee(match.getEpreuve().getAnnee());
+            epreuveDto.setTypeEpreuve(match.getEpreuve().getTypeEpreuve());
+            TournoiDto tournoiDto=new TournoiDto();
+            tournoiDto.setId(match.getEpreuve().getTournoi().getId());
+            tournoiDto.setCode(match.getEpreuve().getTournoi().getCode());
+            tournoiDto.setNom(match.getEpreuve().getTournoi().getNom());
+            epreuveDto.setTournoi(tournoiDto);
+
+            matchDto.setEpreuveFullDto(epreuveDto);
             tx.commit();
 
             //epreuveDto.setTournoi(epreuve.getTournoi());

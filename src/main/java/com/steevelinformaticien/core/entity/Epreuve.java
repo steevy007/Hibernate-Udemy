@@ -7,6 +7,7 @@ package com.steevelinformaticien.core.entity;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
+import java.util.Set;
 
 /**
  *
@@ -24,6 +25,13 @@ public class Epreuve {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ID_TOURNOI")
     private Tournoi tournoi;
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "PARTICIPANTS",
+            joinColumns = {@JoinColumn(name = "ID_EPREUVE")},
+            inverseJoinColumns = {@JoinColumn(name = "ID_JOUEUR")}
+    )
+    private Set<Joueur> participants;
 
     public Epreuve(Long id, Short annee, Character typeEpreuve, Tournoi tournoi) {
         this.id = id;
@@ -67,4 +75,11 @@ public class Epreuve {
         this.tournoi = tournoi;
     }
 
+    public Set<Joueur> getParticipants() {
+        return participants;
+    }
+
+    public void setParticipants(Set<Joueur> participants) {
+        this.participants = participants;
+    }
 }
