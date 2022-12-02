@@ -6,6 +6,7 @@ import com.steevelinformaticien.core.dto.JoueurDto;
 import com.steevelinformaticien.core.entity.Epreuve;
 import com.steevelinformaticien.service.EpreuveService;
 
+import java.util.List;
 import java.util.Scanner;
 
 public class EpreuveController {
@@ -32,5 +33,18 @@ public class EpreuveController {
         Long id=sc.nextLong();
         EpreuveLiteDto epreuve=this.epreuveService.getEpreuveSansTournoi(id);
         System.out.println("L'annee de l'epreuve selectionner est "+epreuve.getAnnee());
+    }
+
+
+    public void listeEpreuve(){
+        Scanner sc=new Scanner(System.in);
+        System.out.println("Veuillez saisir le code du tournoi");
+        String code=sc.nextLine();
+        List<EpreuveFullDto> list=this.epreuveService.getListE(code);
+
+        for(EpreuveFullDto e:list){
+            System.out.println(e.getId());
+        }
+
     }
 }

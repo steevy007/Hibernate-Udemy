@@ -12,7 +12,9 @@ import org.hibernate.Hibernate;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 
 public class EpreuveService {
     private EpreuveRepositoryImpl epreuveRepository;
@@ -68,6 +70,51 @@ public class EpreuveService {
         return null;
     }
 
+    public List<EpreuveFullDto> getListE(String code){
+        Transaction tx=null;
+        Session session=null;
+        List<EpreuveFullDto> EpreuveDtoList=new ArrayList<>();
+        try{
+            session= HibernateUtil.getSessionFactory().getCurrentSession();
+            tx= session.beginTransaction();
+            List<Epreuve> list=this.epreuveRepository.list(code);
+
+            for(Epreuve epreuve:list){
+                EpreuveFullDto epreuveDto=new EpreuveFullDto();
+                epreuveDto.setId(epreuve.getId());
+                epreuveDto.setAnnee(epreuve.getAnnee());
+                epreuveDto.setTypeEpreuve(epreuve.getTypeEpreuve());
+
+                TournoiDto tournoiDto=new TournoiDto();
+                tournoiDto.setId(epreuve.getTournoi().getId());
+                tournoiDto.setNom(epreuve.getTournoi().getNom());
+                tournoiDto.setCode(epreuve.getTournoi().getCode());
+                epreuveDto.setTournoi(tournoiDto);
+
+                epreuveDto.setParticipants(new HashSet<>());
+                for(Joueur joueur: epreuve.getParticipants()){
+                    final JoueurDto joueurDto=new JoueurDto();
+                    joueurDto.setId(joueur.getId());
+                    joueurDto.setPrenom(joueur.getPrenom());
+                    joueurDto.setNom(joueur.getNom());
+                    joueurDto.setSexe(joueur.getSexe());
+
+                    epreuveDto.getParticipants().add(joueurDto);
+                }
+
+            }
+
+            tx.commit();
+        }catch(Exception e){
+            if(tx!=null)
+                tx.rollback();
+            e.printStackTrace();
+        }finally {
+            if(session!=null)
+                session.close();
+        }
+        return EpreuveDtoList;
+    }
 
     public EpreuveLiteDto getEpreuveSansTournoi(Long id){
         Session session=null;
