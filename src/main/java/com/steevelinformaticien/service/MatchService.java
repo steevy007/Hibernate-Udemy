@@ -33,8 +33,10 @@ public class MatchService {
     public MatchService(){
         this.matchImpl=new MatchRepositoryImpl();
         this.scoreImpl=new ScoreRepositoryImpl();
+        this.epreuveImpl=new EpreuveRepositoryImpl();
+        this.joueurImpl=new JoueurRepositoyImpl();
     }
-    
+
 
     public void createMatch(MatchDto t){
         Session session=null;
