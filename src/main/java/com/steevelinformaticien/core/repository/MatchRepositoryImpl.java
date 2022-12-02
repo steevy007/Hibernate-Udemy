@@ -32,47 +32,9 @@ public class MatchRepositoryImpl {
         return match;
     }
 
-    public boolean create(Match match) {
-        Connection conn = null;
-        try {
-            //Seulement avant Java 7/JDBC 4 
-            //Class.forName(DRIVER_CLASS_NAME);
-
-            BasicDataSource datasource = DatasourceProvider.getSingleDatasource();
-            //MySQL driver MySQL Connector
-            conn = datasource.getConnection();
-            PreparedStatement statment = conn.prepareStatement("INSERT INTO MATCH_TENNIS(ID_EPREUVE,ID_VAINQUEUR,ID_FINALISTE) VALUES(?,?,?)", Statement.RETURN_GENERATED_KEYS);
-            statment.setLong(1, match.getEpreuve().getId());
-            statment.setLong(2, match.getVainqueur().getId());
-            statment.setLong(3, match.getFinaliste().getId());
-
-            statment.executeUpdate();
-            ResultSet rs = statment.getGeneratedKeys();
-            //conn.commit();
-            if (rs.next()) {
-                System.out.println("insert Match avec ID =>  " + rs.getLong(1));
-                match.setId(rs.getLong(1));
-                return true;
-            }
-
-            statment.close();
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-            try {
-                conn.rollback();
-            } catch (SQLException ex) {
-                Logger.getLogger(TestDeConnetion.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        } finally {
-            try {
-                if (conn != null) {
-                    conn.close();
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
-        return false;
+    public void create(Match match) {
+      Session session=HibernateUtil.getSessionFactory().getCurrentSession();
+      session.persist(match);
+        System.out.println("Match creer");
     }
 }

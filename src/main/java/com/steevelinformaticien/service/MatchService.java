@@ -8,6 +8,9 @@ import com.steevelinformaticien.HibernateUtil;
 import com.steevelinformaticien.core.dto.*;
 import com.steevelinformaticien.core.entity.Epreuve;
 import com.steevelinformaticien.core.entity.Joueur;
+import com.steevelinformaticien.core.entity.Score;
+import com.steevelinformaticien.core.repository.EpreuveRepositoryImpl;
+import com.steevelinformaticien.core.repository.JoueurRepositoyImpl;
 import com.steevelinformaticien.core.repository.MatchRepositoryImpl;
 import com.steevelinformaticien.core.repository.ScoreRepositoryImpl;
 import com.steevelinformaticien.core.entity.Match;
@@ -22,17 +25,50 @@ public class MatchService {
     
     private MatchRepositoryImpl matchImpl;
     private ScoreRepositoryImpl scoreImpl;
+
+    private EpreuveRepositoryImpl epreuveImpl;
+
+    private JoueurRepositoyImpl joueurImpl;
     
     public MatchService(){
         this.matchImpl=new MatchRepositoryImpl();
         this.scoreImpl=new ScoreRepositoryImpl();
     }
     
-    public boolean createMatch(Match match){
-       if(this.matchImpl.create(match))
-           if(this.scoreImpl.create(match.getScore()))
-               return true;  
-        return false;
+
+    public void createMatch(MatchDto t){
+        Session session=null;
+        Transaction tx=null;
+        Match match=null;
+        try{
+            session = HibernateUtil.getSessionFactory().getCurrentSession();
+            tx=session.beginTransaction();
+
+            match=new Match();
+            match.setEpreuve(epreuveImpl.getById(t.getEpreuveFullDto().getId()));
+            match.setVainqueur(joueurImpl.getById(t.getVainqueur().getId()));
+            match.setFinaliste(joueurImpl.getById(t.getFinaliste().getId()));
+
+            Score score=new Score();
+            score.setMatch(match);
+            match.setScore(score);
+            score.setSet1(t.getScoreFullDto().getSet1());
+            score.setSet2(t.getScoreFullDto().getSet1());
+            score.setSet3(t.getScoreFullDto().getSet1());
+            score.setSet4(t.getScoreFullDto().getSet1());
+            score.setSet5(t.getScoreFullDto().getSet1());
+
+            matchImpl.create(match);
+
+            tx.commit();
+        }catch(Exception e){
+            //System.out.println(e);
+            if(tx!=null)
+                tx.rollback();
+        }finally {
+            if(session!=null)
+                session.close();
+        }
     }
 
 
