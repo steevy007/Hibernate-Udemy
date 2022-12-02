@@ -23,6 +23,13 @@ public class MatchController {
         System.out.println("Il s'agit d'un match de "+matchDto.getEpreuveFullDto().getAnnee()+" qui s'est deroule a "+matchDto.getEpreuveFullDto().getTournoi().getNom());
         System.out.println("le nom et le prenom du vainqueur sont : "+ matchDto.getVainqueur().getNom()+" "+matchDto.getVainqueur().getPrenom());
         System.out.println("le nom et le prenom du finaliste sont : "+ matchDto.getFinaliste().getNom()+" "+matchDto.getFinaliste().getPrenom());
+
+        System.out.println("Les sets du scire sont");
+        System.out.println("Set 1 : "+matchDto.getScoreFullDto().getSet1());
+        System.out.println("Set 2 : "+matchDto.getScoreFullDto().getSet2());
+        System.out.println("Set 3 : "+(matchDto.getScoreFullDto().getSet3()!=null?matchDto.getScoreFullDto().getSet3():0));
+        System.out.println("Set 4 : "+(matchDto.getScoreFullDto().getSet4()!=null?matchDto.getScoreFullDto().getSet4():0));
+        System.out.println("Set 5 : "+(matchDto.getScoreFullDto().getSet5()!=null?matchDto.getScoreFullDto().getSet5():0));
     }
 
 }

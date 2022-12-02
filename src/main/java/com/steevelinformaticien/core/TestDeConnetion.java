@@ -56,14 +56,14 @@ public class TestDeConnetion {
 
         //delete Tournoi
 
-        EpreuveController epreuveController=new EpreuveController();
-       epreuveController.getEpreuveAvecTournoi();
+       // EpreuveController epreuveController=new EpreuveController();
+       //epreuveController.getEpreuveAvecTournoi();
         //epreuveController.getEpreuveSansTournoi();
 
         //impl.getJoueur(10L);
 
-        //MatchController matchController=new MatchController();
-        //matchController.getMatch();
+        MatchController matchController=new MatchController();
+        matchController.getMatch();
 
         //ScoreController scoreController=new ScoreController();
         //scoreController.afficherScore();

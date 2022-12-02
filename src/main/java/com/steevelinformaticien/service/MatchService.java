@@ -75,6 +75,18 @@ public class MatchService {
             epreuveDto.setTournoi(tournoiDto);
 
             matchDto.setEpreuveFullDto(epreuveDto);
+
+            ScoreFullDto scoreFullDto=new ScoreFullDto();
+            scoreFullDto.setId(match.getScore().getId());
+            scoreFullDto.setSet1(match.getScore().getSet1());
+            scoreFullDto.setSet2(match.getScore().getSet2());
+            scoreFullDto.setSet3(match.getScore().getSet3());
+            scoreFullDto.setSet4(match.getScore().getSet4());
+            scoreFullDto.setSet5(match.getScore().getSet5());
+
+            matchDto.setScoreFullDto(scoreFullDto);
+            scoreFullDto.setMatchDto(matchDto);
+
             tx.commit();
 
             //epreuveDto.setTournoi(epreuve.getTournoi());
