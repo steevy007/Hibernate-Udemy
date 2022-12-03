@@ -57,8 +57,8 @@ public class TestDeConnetion {
 
         //delete Tournoi
 
-       EpreuveController epreuveController=new EpreuveController();
-       epreuveController.listeEpreuve();
+       //EpreuveController epreuveController=new EpreuveController();
+       //epreuveController.listeEpreuve();
         //epreuveController.getEpreuveSansTournoi();
 
         //impl.getJoueur(10L);
@@ -69,7 +69,7 @@ public class TestDeConnetion {
         //ScoreController scoreController=new ScoreController();
         //scoreController.supprimerScore();
 
-        //JoueurController joueurController=new JoueurController();
-        //joueurController.listeJoueur();
+        JoueurController joueurController=new JoueurController();
+        joueurController.listeJoueur();
     }
 }
