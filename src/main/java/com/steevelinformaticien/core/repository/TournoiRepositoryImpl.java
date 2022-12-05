@@ -5,6 +5,7 @@
 package com.steevelinformaticien.core.repository;
 
 import com.steevelinformaticien.HibernateUtil;
+import com.steevelinformaticien.core.EntityManagerHolder;
 import com.steevelinformaticien.core.entity.Joueur;
 import com.steevelinformaticien.core.entity.Tournoi;
 import com.steevelinformaticien.core.DatasourceProvider;
@@ -21,79 +22,31 @@ import org.apache.commons.dbcp2.BasicDataSource;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
+import javax.persistence.EntityManager;
+
 /**
  *
  * @author PEPECELL
  */
 public class TournoiRepositoryImpl {
-    public Long create(Tournoi tournoi){
-        Session session=null;
-        Transaction tx=null;
-        try{
-            session=HibernateUtil.getSessionFactory().openSession();
-            tx= session.beginTransaction();
-            session.persist(tournoi);
-            tx.commit();
-
-            System.out.println("Le tournoi est creer avec  id : "+tournoi.getId());
-
-            return tournoi.getId();
-        }catch(Exception e){
-            if(tx!=null)
-                tx.rollback();
-            e.printStackTrace();
-        }finally {
-            if(session!=null)
-                session.close();
-        }
-        return null;
+    public void create(Tournoi tournoi){
+        EntityManager em=new EntityManagerHolder().getCurrentEntityManager();
+        em.persist(tournoi);
+        System.out.println("tournoi creer");
     }
     
-    public boolean update(Tournoi tournoi){
-        Connection conn=null;
-        try{
-            BasicDataSource datasource = DatasourceProvider.getSingleDatasource();
-            conn=datasource.getConnection();
-            PreparedStatement stm=conn.prepareStatement("UPDATE TOURNOI SET nom=? , code=? WHERE id=?");
-            stm.setString(1, tournoi.getNom());
-            stm.setString(2, tournoi.getCode());
-            stm.setLong(3,tournoi.getId());
-            int affect=stm.executeUpdate();
-            if(affect==1){
-                conn.commit();
-                return true;
-            }
-            
-        }catch(Exception e){
-             e.printStackTrace();
-            try {
-                conn.rollback();
-            } catch (SQLException ex) {
-                Logger.getLogger(TournoiRepositoryImpl.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }finally{
-            try {
-                if (conn != null) {
-                    conn.close();
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
-        
-        return false;
-    }
+
     
      public void delete(Long id){
-        Tournoi tournoi=getById(id);
-        Session session=HibernateUtil.getSessionFactory().getCurrentSession();
-        session.delete(tournoi);
+        EntityManager em=new EntityManagerHolder().getCurrentEntityManager();
+        Tournoi tournoi=em.find(Tournoi.class,id);
+        em.remove(tournoi);
          System.out.println("Tournoi Delete !!!!");
     }
      
      public Tournoi getById(Long id){
-         Session session=HibernateUtil.getSessionFactory().getCurrentSession();
-         Tournoi tournoi=session.get(Tournoi.class,id);
+         EntityManager em=new EntityManagerHolder().getCurrentEntityManager();
+         Tournoi tournoi=em.find(Tournoi.class,id);
          return tournoi;
     }
      

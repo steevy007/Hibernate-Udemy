@@ -8,7 +8,7 @@
         <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property><!-- ou son nouveau nom com.mysql.cj.jdbc.Driver -->
         <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/tennis</property>
         <property name="hibernate.connection.username">root</property>
-        <property name="hibernate.connection.password">Steevy@2017</property>
+        <property name="hibernate.connection.password">root</property>
 
         <!-- dbcp connection pool configuration -->
         <property name="hibernate.dbcp.initialSize">5</property>

@@ -5,10 +5,7 @@
 package com.steevelinformaticien.core;
 
 import com.steevelinformaticien.HibernateUtil;
-import com.steevelinformaticien.core.controller.EpreuveController;
-import com.steevelinformaticien.core.controller.JoueurController;
-import com.steevelinformaticien.core.controller.MatchController;
-import com.steevelinformaticien.core.controller.ScoreController;
+import com.steevelinformaticien.core.controller.*;
 import com.steevelinformaticien.core.entity.Tournoi;
 import com.steevelinformaticien.core.repository.JoueurRepositoyImpl;
 import com.steevelinformaticien.core.entity.Joueur;
@@ -69,7 +66,10 @@ public class TestDeConnetion {
         //ScoreController scoreController=new ScoreController();
         //scoreController.supprimerScore();
 
-        JoueurController joueurController=new JoueurController();
-        joueurController.listeJoueur();
+        //JoueurController joueurController=new JoueurController();
+        //joueurController.listeJoueur();
+
+        TournoiController tournoiController=new TournoiController();
+        tournoiController.deleteTournoi();
     }
 }
