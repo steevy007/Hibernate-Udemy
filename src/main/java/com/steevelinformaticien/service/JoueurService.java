@@ -5,6 +5,7 @@
 package com.steevelinformaticien.service;
 
 import com.steevelinformaticien.HibernateUtil;
+import com.steevelinformaticien.core.EntityManagerHolder;
 import com.steevelinformaticien.core.dto.JoueurDto;
 import com.steevelinformaticien.core.repository.JoueurRepositoyImpl;
 import com.steevelinformaticien.core.repository.TournoiRepositoryImpl;
@@ -12,6 +13,8 @@ import com.steevelinformaticien.core.entity.Joueur;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
+import javax.persistence.EntityManager;
+import javax.persistence.EntityTransaction;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,12 +31,13 @@ public class JoueurService {
     }
 
     public List<JoueurDto> getListJ(char sexe){
-        Transaction tx=null;
-        Session session=null;
+        EntityTransaction tx=null;
+        EntityManager em=null;
         List<JoueurDto> joueurDtoList=new ArrayList<>();
         try{
-            session= HibernateUtil.getSessionFactory().getCurrentSession();
-            tx= session.beginTransaction();
+            em=new EntityManagerHolder().getCurrentEntityManager();
+            tx= em.getTransaction();
+            tx.begin();
             List<Joueur> list=this.joueurImpl.list(sexe);
 
             for(Joueur joueur:list){
@@ -51,8 +55,8 @@ public class JoueurService {
                 tx.rollback();
             e.printStackTrace();
         }finally {
-            if(session!=null)
-                session.close();
+            if(em!=null)
+                em.close();
         }
         return joueurDtoList;
     }

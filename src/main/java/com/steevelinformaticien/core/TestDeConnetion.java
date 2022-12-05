@@ -66,10 +66,10 @@ public class TestDeConnetion {
         //ScoreController scoreController=new ScoreController();
         //scoreController.supprimerScore();
 
-        //JoueurController joueurController=new JoueurController();
-        //joueurController.listeJoueur();
+        JoueurController joueurController=new JoueurController();
+        joueurController.listeJoueur();
 
-        TournoiController tournoiController=new TournoiController();
-        tournoiController.deleteTournoi();
+        //TournoiController tournoiController=new TournoiController();
+        //tournoiController.deleteTournoi();
     }
 }

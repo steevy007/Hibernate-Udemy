@@ -6,6 +6,7 @@ package com.steevelinformaticien.core.repository;
 
 import com.steevelinformaticien.HibernateUtil;
 import com.steevelinformaticien.core.DatasourceProvider;
+import com.steevelinformaticien.core.EntityManagerHolder;
 import com.steevelinformaticien.core.TestDeConnetion;
 import com.steevelinformaticien.core.entity.Joueur;
 
@@ -23,6 +24,9 @@ import org.apache.commons.dbcp2.BasicDataSource;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
+
+import javax.persistence.EntityManager;
+import javax.persistence.TypedQuery;
 
 /**
  * @author PEPECELL
@@ -87,8 +91,8 @@ public class JoueurRepositoyImpl {
         //Connection conn = null;
         Joueur joueur = null;
         Session session = null;
-        session = HibernateUtil.getSessionFactory().getCurrentSession();
-        joueur = (Joueur) session.get(Joueur.class, id);
+        EntityManager em=new EntityManagerHolder().getCurrentEntityManager();
+        joueur = (Joueur) em.find(Joueur.class, id);
         System.out.println("joueur lu");
 
 
@@ -96,8 +100,8 @@ public class JoueurRepositoyImpl {
     }
 
     public List<Joueur> list(char sexe) {
-        Session session=HibernateUtil.getSessionFactory().getCurrentSession();
-        Query<Joueur> query=session.createNamedQuery("given_sexe",Joueur.class);
+        EntityManager em=new EntityManagerHolder().getCurrentEntityManager();
+        TypedQuery<Joueur> query=em.createNamedQuery("given_sexe",Joueur.class);
         query.setParameter(0,sexe);
         List<Joueur> listJoueur=query.getResultList();
 

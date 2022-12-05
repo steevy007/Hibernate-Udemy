@@ -1,6 +1,7 @@
 package com.steevelinformaticien.service;
 
 import com.steevelinformaticien.HibernateUtil;
+import com.steevelinformaticien.core.EntityManagerHolder;
 import com.steevelinformaticien.core.dto.EpreuveFullDto;
 import com.steevelinformaticien.core.dto.EpreuveLiteDto;
 import com.steevelinformaticien.core.dto.JoueurDto;
@@ -12,6 +13,8 @@ import org.hibernate.Hibernate;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
+import javax.persistence.EntityManager;
+import javax.persistence.EntityTransaction;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -71,12 +74,13 @@ public class EpreuveService {
     }
 
     public List<EpreuveFullDto> getListE(String code){
-        Transaction tx=null;
-        Session session=null;
+        EntityTransaction tx=null;
+        EntityManager em=null;
         List<EpreuveFullDto> EpreuveDtoList=new ArrayList<>();
         try{
-            session= HibernateUtil.getSessionFactory().getCurrentSession();
-            tx= session.beginTransaction();
+            em=new EntityManagerHolder().getCurrentEntityManager();
+            tx=em.getTransaction();
+            tx.begin();
             List<Epreuve> list=this.epreuveRepository.list(code);
 
             for(Epreuve epreuve:list){
@@ -110,8 +114,8 @@ public class EpreuveService {
                 tx.rollback();
             e.printStackTrace();
         }finally {
-            if(session!=null)
-                session.close();
+            if(em!=null)
+                em.close();
         }
         return EpreuveDtoList;
     }
